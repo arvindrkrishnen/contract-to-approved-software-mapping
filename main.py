@@ -35,14 +35,14 @@ Software_name = "Data Studio"
 # Read the CSV file into a pandas dataframe
 df = pd.read_csv("software.csv")
 
-# Use fuzzy search to find the closest match to "Fin Astra" in the RollupVendor column
+# Use fuzzy search to find the closest match in the RollupVendor column
 matches = df["RollupVendor"].apply(lambda x: fuzz.token_set_ratio(x, vendor_name))
 best_match_index = matches.idxmax()
 
 # Extract the row with the best match into a new dataframe
 best_match_df = df.loc[[best_match_index]]
 
-# Use fuzzy search to find the closest match to "LoanIQ" in the Description and DetailView columns of the best match row
+# Use fuzzy search to find the closest match in the Description and DetailView columns of the best match row
 matches = best_match_df.apply(lambda x: fuzz.token_set_ratio(x["Description"], Software_name) + fuzz.token_set_ratio(x["DetailView"], "LoanIQ"), axis=1)
 best_match_index2 = matches.idxmax()
 
